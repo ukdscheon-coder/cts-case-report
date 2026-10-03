@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CTS Case Report</title>
+<meta name="description" content="Beckman Coulter CTS customer case report: instrument details, photos, text scan, one-tap CTS call, timestamped case log, share by email or WhatsApp.">
+<meta name="theme-color" content="#0d5c7a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CTS Report">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single-column field tool — sticky header, report list → one editor screen with a log timeline at the bottom */
+:root{
+  --bg:#eef1f3; --surface:#ffffff; --ink:#14232e; --muted:#5b6b77; --line:#d3dbe1;
+  --accent:#0d5c7a; --accent-ink:#ffffff; --signal:#c2410c; --ok:#18794e; --warn:#a15c00; --soft:#e2eaef;
+  --f-display:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d151b; --surface:#16222b; --ink:#e6edf2; --muted:#93a5b2; --line:#2a3a46;
+  --accent:#4fb3d9; --accent-ink:#06202b; --signal:#f08a4b; --ok:#4cc38a; --warn:#e3a33b; --soft:#1d2c37; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d151b; --surface:#16222b; --ink:#e6edf2; --muted:#93a5b2; --line:#2a3a46;
+  --accent:#4fb3d9; --accent-ink:#06202b; --signal:#f08a4b; --ok:#4cc38a; --warn:#e3a33b; --soft:#1d2c37; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 var(--f-body);-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:0 96px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px;display:flex;align-items:center;gap:10px}
+header.top h1{font:700 1.25rem/1 var(--f-display);letter-spacing:.01em;margin:0;flex:1;min-width:0;text-wrap:balance}
+header.top h1 small{display:block;font:500 .72rem/1.3 var(--f-body);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+button,.btn{font:600 .95rem/1 var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:11px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;min-height:44px}
+button:focus-visible,.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.signal{background:var(--signal);color:#fff;border-color:var(--signal)}
+.ghost{background:transparent}
+.icon{width:44px;padding:0}
+section.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:14px;margin-top:14px}
+.label{font:600 .72rem/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h2{font:700 1.05rem/1.2 var(--f-display);margin:0;letter-spacing:.01em}
+.field{display:grid;gap:6px}
+.row{display:flex;gap:8px;align-items:stretch}
+.row>input{flex:1;min-width:0}
+input,textarea,select{width:100%;font:16px/1.4 var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:11px 12px}
+input.mono{font-family:var(--f-mono);letter-spacing:.02em}
+textarea{min-height:110px;resize:vertical}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.thumb{position:relative;aspect-ratio:1;max-width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--soft)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;top:4px;right:4px;min-height:28px;width:28px;padding:0;border-radius:50%;font-size:.9rem;background:rgba(0,0,0,.6);color:#fff;border:0}
+.cts{border-color:var(--accent)}
+.phone{font:500 1.6rem/1.1 var(--f-mono);letter-spacing:.02em;user-select:all;word-break:break-word}
+.casebox{display:grid;gap:4px;padding:12px;border-radius:8px;background:var(--soft)}
+.caseno{font:500 1.35rem/1.2 var(--f-mono);word-break:break-all}
+.meta{font:400 .85rem/1.35 var(--f-mono);color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 .85rem/1.2 var(--f-mono);padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);min-height:36px}
+.log{list-style:none;margin:0;padding:0;display:grid}
+.log li{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.log li:first-child{border-top:0}
+.log time{font:400 .8rem/1.4 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.log span{min-width:0;overflow-wrap:anywhere;font-size:.95rem}
+.log li.k span{font-weight:600;color:var(--accent)}
+.list{display:grid;gap:10px;margin-top:14px}
+.card{display:grid;gap:4px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;width:100%;min-height:0;font-weight:400}
+.card .t{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.card strong{font:700 1.05rem/1.2 var(--f-display);min-width:0;overflow-wrap:anywhere}
+.pill{font:600 .7rem/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:99px;white-space:nowrap}
+.p-open{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.p-case{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent)}
+.p-closed{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:640px;margin:0 auto;display:flex;gap:8px}
+.bar .in>*{flex:1}
+pre.out{white-space:pre-wrap;overflow-wrap:anywhere;font:400 .82rem/1.5 var(--f-mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;margin:0;max-height:50vh;overflow:auto}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:500;z-index:20;max-width:calc(100% - 32px)}
+.sheet{position:fixed;inset:0;z-index:30;background:rgba(5,12,18,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet .panel{background:var(--surface);width:100%;max-width:640px;border-radius:14px 14px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:12px;max-height:85vh;overflow:auto}
+.hint{font-size:.85rem;color:var(--muted)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.prog{height:6px;border-radius:3px;background:var(--soft);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <!-- HOME -->
+  <div id="home">
+    <header class="top">
+      <h1>CTS Case Report<small>Beckman Coulter · field service log</small></h1>
+      <button class="icon ghost" id="btnSettings" aria-label="CTS settings">⚙</button>
+    </header>
+
+    <section class="block cts">
+      <div class="label" id="homeRegion">CTS · UK Service Hotline</div>
+      <a class="phone" id="homePhone" href="tel:08456001345" style="color:inherit;text-decoration:none">0845 600 1345</a>
+      <div class="row">
+        <a class="btn signal" id="homeCall" style="flex:1" href="tel:08456001345">Call CTS now</a>
+        <button class="primary" id="homeNew" style="flex:1">+ New report</button>
+      </div>
+    </section>
+
+    <div class="row" style="margin-top:18px;align-items:center;justify-content:space-between">
+      <h2>Reports</h2>
+      <span class="meta" id="count"></span>
+    </div>
+    <div class="list" id="list"></div>
+    <p class="hint" style="margin-top:16px">Reports and photos stay on this phone only. Add this page to your home screen to use it like an app.</p>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor" hidden>
+    <header class="top">
+      <button class="icon ghost" id="btnBack" aria-label="Back to reports">←</button>
+      <h1 id="edTitle">New report<small id="edSub"></small></h1>
+      <span class="pill" id="edStatus"></span>
+    </header>
+
+    <section class="block">
+      <h2>Instrument</h2>
+      <div class="field">
+        <label class="label" for="fHospital">Hospital</label>
+        <div class="row"><input id="fHospital" autocomplete="organization" placeholder="e.g. Addenbrooke's Hospital, Pathology"><button class="icon" data-scan="fHospital" aria-label="Scan text into Hospital">⌗</button></div>
+      </div>
+      <div class="field">
+        <label class="label" for="fInstance">Instance Number</label>
+        <div class="row"><input id="fInstance" class="mono" autocapitalize="characters" placeholder="Instance no."><button class="icon" data-scan="fInstance" aria-label="Scan text into Instance Number">⌗</button></div>
+      </div>
+      <div class="field">
+        <label class="label" for="fSerial">Serial Number</label>
+        <div class="row"><input id="fSerial" class="mono" autocapitalize="characters" placeholder="S/N from rating plate"><button class="icon" data-scan="fSerial" aria-label="Scan text into Serial Number">⌗</button></div>
+      </div>
+      <p class="hint">⌗ opens the camera, reads the text on this phone, and lets you tap the line to insert.</p>
+    </section>
+
+    <section class="block cts">
+      <div class="row" style="justify-content:space-between;align-items:center"><h2>Beckman Coulter CTS</h2><span class="label" id="edRegion"></span></div>
+      <a class="phone" id="edPhone" href="#" style="color:inherit;text-decoration:none"></a>
+      <div class="row">
+        <a class="btn signal" id="btnCall" style="flex:1" href="#">Call CTS</a>
+        <button id="btnCopyNum">Copy no.</button>
+      </div>
+      <p class="hint">Tap Call to dial CTS straight away. The call start time is logged automatically.</p>
+      <div class="field">
+        <label class="label" for="fCase">Case number from CTS</label>
+        <div class="row"><input id="fCase" class="mono" autocapitalize="characters" placeholder="Enter case no."><button class="primary" id="btnCase">Save</button></div>
+      </div>
+      <div class="casebox" id="caseBox" hidden>
+        <span class="label">Case number</span>
+        <span class="caseno" id="caseNo"></span>
+        <span class="meta" id="caseAt"></span>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="row" style="justify-content:space-between;align-items:center"><h2>Photos</h2><span class="meta" id="photoCount"></span></div>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="row">
+        <label class="btn" style="flex:1" for="inCam">Take photo</label>
+        <label class="btn" style="flex:1" for="inLib">Add from library</label>
+      </div>
+      <input type="file" id="inCam" accept="image/*" capture="environment" hidden>
+      <input type="file" id="inLib" accept="image/*" multiple hidden>
+    </section>
+
+    <section class="block">
+      <div class="row" style="justify-content:space-between;align-items:center"><label class="label" for="fNote" style="font-size:.85rem">Note</label><button data-scan="fNote" data-append="1">⌗ Scan to note</button></div>
+      <textarea id="fNote" placeholder="Symptom, error codes, steps taken, parts, outcome…"></textarea>
+    </section>
+
+    <section class="block">
+      <div class="row" style="justify-content:space-between;align-items:center"><h2>Log</h2><button id="btnLogAdd">+ Entry</button></div>
+      <ul class="log" id="log"></ul>
+    </section>
+
+    <section class="block">
+      <h2>Status</h2>
+      <div class="seg" id="seg">
+        <button data-s="open" aria-pressed="false">Open</button>
+        <button data-s="closed" aria-pressed="false">Closed</button>
+      </div>
+      <button class="ghost" id="btnDelete" style="color:var(--signal)">Delete report</button>
+    </section>
+  </div>
+</div>
+
+<div class="bar" id="edBar" hidden><div class="in">
+  <button id="btnPreview">Preview</button>
+  <button class="primary" id="btnShare">Send report</button>
+</div></div>
+
+<!-- sheets -->
+<div class="sheet" id="shScan" hidden><div class="panel">
+  <div class="row" style="justify-content:space-between;align-items:center"><h2 id="scanTitle">Reading text…</h2><button class="icon ghost" data-close="shScan" aria-label="Close">✕</button></div>
+  <div class="prog"><i id="scanProg"></i></div>
+  <p class="hint" id="scanMsg">First scan loads the reader (about 7 MB), then it works offline.</p>
+  <div class="chips" id="scanChips"></div>
+  <textarea id="scanText" hidden></textarea>
+  <div class="row" id="scanActs" hidden><button class="primary" id="scanUseAll" style="flex:1">Insert all text</button></div>
+</div></div>
+
+<div class="sheet" id="shSet" hidden><div class="panel">
+  <div class="row" style="justify-content:space-between;align-items:center"><h2>CTS contact</h2><button class="icon ghost" data-close="shSet" aria-label="Close">✕</button></div>
+  <div class="field"><label class="label" for="sRegion">Line</label>
+    <select id="sRegion"></select></div>
+  <div class="field"><label class="label" for="sNum">Number</label><input id="sNum" class="mono" inputmode="tel"></div>
+  <div class="field"><label class="label" for="sEmail">Default report email</label><input id="sEmail" type="email" inputmode="email" placeholder="e.g. service lead or CTS mailbox"></div>
+  <div class="field"><label class="label" for="sPhone">Default WhatsApp / SMS number</label><input id="sPhone" class="mono" inputmode="tel" placeholder="+44 7…"></div>
+  <div class="field"><label class="label" for="sEng">Engineer / reporter name</label><input id="sEng" autocomplete="name" placeholder="Shown on every report"></div>
+  <p class="hint">Numbers from Beckman Coulter's public contact pages. Check with your local CTS team that this is the line for your contract.</p>
+  <button class="primary" id="sSave">Save</button>
+</div></div>
+
+<div class="sheet" id="shPrev" hidden><div class="panel">
+  <div class="row" style="justify-content:space-between;align-items:center"><h2>Report</h2><button class="icon ghost" data-close="shPrev" aria-label="Close">✕</button></div>
+  <pre class="out" id="prevOut"></pre>
+  <button class="primary" id="prevCopy">Copy report</button>
+</div></div>
+
+<div class="sheet" id="shShare" hidden><div class="panel">
+  <div class="row" style="justify-content:space-between;align-items:center"><h2>Send report</h2><button class="icon ghost" data-close="shShare" aria-label="Close">✕</button></div>
+  <div class="casebox" id="linkBox"><span class="label">Report link · photos included</span>
+    <span class="meta" id="shLinkState">Creating a link anyone can open…</span>
+    <div class="row"><input id="shUrl" class="mono" readonly aria-label="Report link"><button id="shUrlCopy">Copy</button></div>
+    <span class="hint">Email, WhatsApp, Message and chat apps send this link. The recipient sees the full report and every photo in any browser, no app or login needed. Links expire after 30 days.</span>
+  </div>
+  <div class="casebox"><span class="label">Files</span>
+    <button class="primary" id="shAll">Share PDF + photos</button>
+    <span class="hint" id="shAllHint">Opens your phone's share menu with the report PDF and every photo, ready for Mail, WhatsApp, Outlook or Teams.</span>
+    <div class="row"><button style="flex:1" id="shPdf">Save PDF</button><button style="flex:1" id="shZip">Save photos (.zip)</button></div>
+  </div>
+  <div class="field"><label class="label" for="shTo">Email to</label><input id="shTo" type="email" inputmode="email" placeholder="name@hospital.nhs.uk"></div>
+  <div class="row" style="flex-wrap:wrap">
+    <a class="btn" style="flex:1;min-width:120px" id="lnGmail" target="_blank" rel="noopener" href="#">Gmail</a>
+    <a class="btn" style="flex:1;min-width:120px" id="lnOutlook" target="_blank" rel="noopener" href="#">Outlook</a>
+    <a class="btn" style="flex:1;min-width:120px" id="lnMail" href="#">Mail app</a>
+  </div>
+  <div class="field"><label class="label" for="shPh">WhatsApp / SMS number</label><input id="shPh" class="mono" inputmode="tel" placeholder="+44 7… (blank: choose contact)"></div>
+  <div class="row">
+    <a class="btn" style="flex:1;background:#1f8f4e;color:#fff;border-color:#1f8f4e" id="lnWa" target="_blank" rel="noopener" href="#">WhatsApp</a>
+    <a class="btn" style="flex:1" id="lnSms" href="#">Message</a>
+    <button style="flex:1" id="shCopy">Copy text</button>
+  </div>
+  <p class="hint">If the link cannot be created (no signal), these buttons send the report text only. Use <b>Share PDF + photos</b> to attach files instead.</p>
+</div></div>
+
+<div class="sheet" id="shConfirm" hidden><div class="panel">
+  <h2 id="cfMsg">Delete this report?</h2>
+  <p class="hint">This removes the report, its photos and log from this phone.</p>
+  <div class="row"><button style="flex:1" data-close="shConfirm">Cancel</button><button class="signal" style="flex:1" id="cfYes">Delete</button></div>
+</div></div>
+
+<div class="sheet" id="shLog" hidden><div class="panel">
+  <h2>Add log entry</h2>
+  <input id="logText" placeholder="e.g. Engineer dispatched, part ordered">
+  <div class="row"><button style="flex:1" data-close="shLog">Cancel</button><button class="primary" style="flex:1" id="logSave">Add</button></div>
+</div></div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="lib/tesseract.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
+<script src="lib/jszip.min.js"></script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const LINES=[
+  {k:"uk",n:"UK Service Hotline",num:"0845 600 1345"},
+  {k:"usd",n:"US Diagnostics Troubleshooting",num:"(800) 854-3633"},
+  {k:"usl",n:"US Life Sciences Tech Support",num:"(800) 369-0333"},
+  {k:"custom",n:"Custom number",num:""}
+];
+const pad=n=>String(n).padStart(2,"0");
+const stamp=t=>{const d=new Date(t);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`};
+const tzName=()=>{try{return Intl.DateTimeFormat().resolvedOptions().timeZone}catch(e){return ""}};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- storage: IndexedDB, falls back to memory ---------- */
+let db=null; const mem=new Map();
+function openDB(){return new Promise(res=>{try{const r=indexedDB.open("cts-case-report",1);
+  r.onupgradeneeded=()=>r.result.createObjectStore("reports",{keyPath:"id"});
+  r.onsuccess=()=>{db=r.result;res()};r.onerror=()=>res();}catch(e){res()}})}
+function tx(mode){return db.transaction("reports",mode).objectStore("reports")}
+function put(r){mem.set(r.id,r);if(!db)return Promise.resolve();return new Promise(res=>{try{const q=tx("readwrite").put(r);q.onsuccess=q.onerror=()=>res()}catch(e){res()}})}
+function del(id){mem.delete(id);if(!db)return Promise.resolve();return new Promise(res=>{try{const q=tx("readwrite").delete(id);q.onsuccess=q.onerror=()=>res()}catch(e){res()}})}
+function all(){if(!db)return Promise.resolve([...mem.values()]);return new Promise(res=>{try{const q=tx("readonly").getAll();q.onsuccess=()=>{q.result.forEach(r=>mem.set(r.id,r));res(q.result)};q.onerror=()=>res([...mem.values()])}catch(e){res([...mem.values()])}})}
+const ls={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+let cfg=ls.get("cts-cfg",{line:"uk",num:LINES[0].num,eng:""});
+let cur=null, saveT=null;
+
+function toast(m){const t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2200)}
+function lineName(){return (LINES.find(l=>l.k===cfg.line)||LINES[3]).n}
+function telHref(n){return "tel:"+String(n).replace(/[^\d+]/g,"").replace(/^0845/,"0845")}
+function addLog(msg,key){cur.log.push({t:Date.now(),m:msg,k:!!key});renderLog();queueSave()}
+function queueSave(){clearTimeout(saveT);cur.updated=Date.now();saveT=setTimeout(()=>put(cur),300)}
+
+/* ---------- home ---------- */
+async function showHome(){
+  if(cur){clearTimeout(saveT);await put(cur);cur=null}
+  $("editor").hidden=true;$("edBar").hidden=true;$("home").hidden=false;
+  $("homeRegion").textContent="CTS · "+lineName();$("homePhone").textContent=cfg.num||"Set a number in ⚙";$("homePhone").href=$("homeCall").href=telHref(cfg.num);
+  const rs=(await all()).sort((a,b)=>b.updated-a.updated);
+  $("count").textContent=rs.length?rs.length+(rs.length>1?" reports":" report"):"";
+  $("list").innerHTML=rs.length?rs.map(r=>{const st=statusOf(r);return `<button class="card" data-id="${r.id}">
+    <div class="t"><strong>${esc(r.hospital||"Untitled hospital")}</strong><span class="pill p-${st.c}">${st.l}</span></div>
+    <span class="meta">S/N ${esc(r.serial||"—")} · Inst ${esc(r.instance||"—")}</span>
+    <span class="meta">${r.caseNo?"Case "+esc(r.caseNo)+" · ":""}${stamp(r.updated)}</span></button>`}).join("")
+    :`<div class="empty">No reports yet. Tap <b>New case report</b>, fill in the instrument, call CTS, then save the case number they give you.</div>`;
+  window.scrollTo(0,0);
+}
+function statusOf(r){if(r.status==="closed")return{c:"closed",l:"Closed"};if(r.caseNo)return{c:"case",l:"Case logged"};return{c:"open",l:"Open"}}
+$("list").addEventListener("click",async e=>{const b=e.target.closest(".card");if(!b)return;const r=mem.get(b.dataset.id);if(r)openEditor(r)});
+$("homeNew").onclick=()=>{const now=Date.now();
+  const r={id:"r"+now.toString(36)+Math.random().toString(36).slice(2,6),hospital:"",instance:"",serial:"",note:"",photos:[],caseNo:"",caseAt:0,callAt:0,status:"open",created:now,updated:now,log:[{t:now,m:"Report created"+(cfg.eng?" by "+cfg.eng:""),k:false}]};
+  put(r);openEditor(r)};
+
+/* ---------- editor ---------- */
+function openEditor(r){cur=r;$("home").hidden=true;$("editor").hidden=false;$("edBar").hidden=false;
+  ["Hospital","Instance","Serial","Note"].forEach(k=>$("f"+k).value=r[k.toLowerCase()]||"");
+  $("fCase").value="";renderHead();renderCTS();renderPhotos();renderLog();window.scrollTo(0,0)}
+function renderHead(){const st=statusOf(cur);$("edTitle").firstChild.textContent=cur.hospital||"New report";
+  $("edSub").textContent="Created "+stamp(cur.created);const p=$("edStatus");p.className="pill p-"+st.c;p.textContent=st.l;
+  document.querySelectorAll("#seg button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.s===(cur.status==="closed"?"closed":"open"))))}
+function renderCTS(){$("edRegion").textContent=lineName();$("edPhone").textContent=cfg.num||"No number set";$("btnCall").href=$("edPhone").href=telHref(cfg.num);
+  const has=!!cur.caseNo;$("caseBox").hidden=!has;
+  if(has){$("caseNo").textContent=cur.caseNo;let s="Issued "+stamp(cur.caseAt)+" ("+tzName()+")";
+    if(cur.callAt&&cur.caseAt>cur.callAt){const m=Math.round((cur.caseAt-cur.callAt)/60000);s+=" · "+m+" min after call start"}$("caseAt").textContent=s;$("fCase").placeholder="Replace case no."}
+  else $("fCase").placeholder="Enter case no."}
+function renderLog(){$("log").innerHTML=cur.log.slice().reverse().map(l=>`<li class="${l.k?"k":""}"><time>${stamp(l.t).slice(5)}</time><span>${esc(l.m)}</span></li>`).join("")}
+function renderPhotos(){$("photoCount").textContent=cur.photos.length?cur.photos.length+" attached":"";
+  $("thumbs").innerHTML=cur.photos.map((p,i)=>`<div class="thumb"><img src="${p.d}" alt="Photo ${i+1}"><button data-rm="${i}" aria-label="Remove photo ${i+1}">✕</button></div>`).join("")}
+
+const fieldName={fHospital:"Hospital",fInstance:"Instance Number",fSerial:"Serial Number",fNote:"Note"};
+["fHospital","fInstance","fSerial","fNote"].forEach(id=>{const el=$(id);let before="";
+  el.addEventListener("focus",()=>before=el.value);
+  el.addEventListener("input",()=>{cur[id.slice(1).toLowerCase()]=el.value;if(id==="fHospital")renderHead();queueSave()});
+  el.addEventListener("change",()=>{if(id!=="fNote"&&el.value.trim()&&el.value!==before)addLog(fieldName[id]+" set: "+el.value.trim())})});
+
+$("btnBack").onclick=showHome;
+["btnCall","edPhone"].forEach(id=>$(id).addEventListener("click",()=>{if(!cfg.num){toast("Set a CTS number in settings first");return}cur.callAt=Date.now();addLog("Called CTS ("+lineName()+") "+cfg.num,true)}));
+$("btnCopyNum").onclick=()=>copy(cfg.num,"Number copied");
+$("btnCase").onclick=()=>{const v=$("fCase").value.trim();if(!v){toast("Type the case number CTS gave you");$("fCase").focus();return}
+  const prev=cur.caseNo;cur.caseNo=v;cur.caseAt=Date.now();
+  addLog((prev?"Case number changed "+prev+" → ":"CTS case number received: ")+v,true);$("fCase").value="";renderCTS();renderHead();toast("Case number saved with time")};
+$("fCase").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("btnCase").click()}});
+$("seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const s=b.dataset.s;if(s===cur.status)return;cur.status=s;addLog(s==="closed"?"Report closed":"Report reopened",true);renderHead()});
+$("btnLogAdd").onclick=()=>{$("logText").value="";open("shLog");setTimeout(()=>$("logText").focus(),50)};
+$("logSave").onclick=()=>{const v=$("logText").value.trim();if(v){addLog(v);close("shLog")}};
+$("logText").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();$("logSave").click()}});
+$("btnDelete").onclick=()=>open("shConfirm");
+$("cfYes").onclick=async()=>{const id=cur.id;clearTimeout(saveT);cur=null;await del(id);close("shConfirm");showHome();toast("Report deleted")};
+
+/* ---------- photos: compress on device ---------- */
+function shrink(file,max=1400,q=.72){return new Promise((res,rej)=>{const img=new Image();const u=URL.createObjectURL(file);
+  img.onload=()=>{const s=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c)};img.onerror=e=>{URL.revokeObjectURL(u);rej(e)};img.src=u})}
+async function addPhotos(files){for(const f of files){try{const c=await shrink(f);cur.photos.push({d:c.toDataURL("image/jpeg",.72),t:Date.now()});addLog("Photo attached ("+cur.photos.length+")")}catch(e){toast("That image could not be read")}}renderPhotos();queueSave()}
+["inCam","inLib"].forEach(id=>$(id).addEventListener("change",e=>{addPhotos([...e.target.files]);e.target.value=""}));
+$("thumbs").addEventListener("click",e=>{const b=e.target.closest("[data-rm]");if(!b)return;cur.photos.splice(+b.dataset.rm,1);addLog("Photo removed");renderPhotos()});
+
+/* ---------- OCR on device (no AI tokens) ---------- */
+let worker=null, scanTarget=null, scanAppend=false;
+const scanIn=document.createElement("input");scanIn.type="file";scanIn.accept="image/*";scanIn.setAttribute("capture","environment");scanIn.hidden=true;document.body.appendChild(scanIn);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-scan]");if(!b)return;scanTarget=b.dataset.scan;scanAppend=!!b.dataset.append;scanIn.value="";scanIn.click()});
+async function getWorker(){if(worker)return worker;if(!window.Tesseract)throw new Error("noengine");
+  const base=new URL("ocr/",document.baseURI).href;
+  $("scanMsg").textContent="Loading text reader…";
+  const b64=await (await fetch(base+"eng-data.txt")).text();
+  const bin=atob(b64.trim()),u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+  worker=await Tesseract.createWorker([{code:"eng",data:u8}],1,{workerPath:base+"worker.min.js",corePath:base,workerBlobURL:false,
+    logger:m=>{if(m.progress!=null)$("scanProg").style.width=Math.round(m.progress*100)+"%";if(m.status)$("scanMsg").textContent=m.status[0].toUpperCase()+m.status.slice(1)+"…"}});
+  return worker}
+scanIn.addEventListener("change",async()=>{const f=scanIn.files[0];if(!f)return;
+  $("scanTitle").textContent="Reading text…";$("scanChips").innerHTML="";$("scanActs").hidden=true;$("scanText").hidden=true;$("scanProg").style.width="0";
+  $("scanMsg").textContent="First scan loads the reader (about 7 MB), then it is ready instantly.";open("shScan");
+  try{const c=await shrink(f,1800,.9);const g=c.getContext("2d");const d=g.getImageData(0,0,c.width,c.height),p=d.data;
+    for(let i=0;i<p.length;i+=4){const y=.299*p[i]+.587*p[i+1]+.114*p[i+2];p[i]=p[i+1]=p[i+2]=y}g.putImageData(d,0,0);
+    const w=await getWorker();const {data}=await w.recognize(c);
+    const lines=(data.text||"").split("\n").map(s=>s.trim()).filter(s=>s.length>1);
+    $("scanProg").style.width="100%";
+    if(!lines.length){$("scanTitle").textContent="No text found";$("scanMsg").textContent="Move closer, avoid glare and keep the label flat, then try again.";return}
+    $("scanTitle").textContent="Tap a line to insert into "+fieldName[scanTarget];$("scanMsg").textContent=lines.length+" line(s) read on this phone. You can edit before saving.";
+    const toks=[];lines.forEach(l=>{toks.push(l);(l.match(/[A-Z0-9][A-Z0-9\-\/\.]{4,}/gi)||[]).forEach(t=>{if(t!==l&&/\d/.test(t))toks.push(t)})});
+    $("scanChips").innerHTML=[...new Set(toks)].slice(0,30).map(t=>`<button class="chip" data-t="${esc(t)}">${esc(t)}</button>`).join("");
+    $("scanText").value=lines.join("\n");$("scanText").hidden=false;$("scanActs").hidden=false;
+  }catch(err){$("scanTitle").textContent="Scanner unavailable here";
+    $("scanMsg").innerHTML="The text reader could not start in this browser. On iPhone, tap the field, then <b>Scan Text</b> in the keyboard menu; on Android use the keyboard's scan / Google Lens option. The photo was not attached.";}
+});
+function insertScan(text){const el=$(scanTarget);if(!el)return;
+  if(scanAppend||scanTarget==="fNote"){el.value=(el.value?el.value.replace(/\s*$/,"")+"\n":"")+text}else el.value=text;
+  cur[scanTarget.slice(1).toLowerCase()]=el.value;addLog("Scanned text into "+fieldName[scanTarget]+(scanTarget==="fNote"?"":": "+text));renderHead();close("shScan")}
+$("scanChips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)insertScan(scanTarget==="fNote"?b.dataset.t:b.dataset.t.replace(/\s+/g,scanTarget==="fHospital"?" ":""))});
+$("scanUseAll").onclick=()=>insertScan($("scanText").value.trim());
+
+/* ---------- report text ---------- */
+function reportText(r){const L=[],line="─".repeat(32);
+  L.push("BECKMAN COULTER — CUSTOMER CASE REPORT",line);
+  L.push("Case No.     : "+(r.caseNo||"(not yet issued)"));
+  if(r.caseAt)L.push("Case issued  : "+stamp(r.caseAt)+" "+tzName());
+  L.push("Status       : "+statusOf(r).l);
+  L.push("Hospital     : "+(r.hospital||"—"),"Instance No. : "+(r.instance||"—"),"Serial No.   : "+(r.serial||"—"));
+  L.push("CTS line     : "+lineName()+" "+(cfg.num||""));
+  if(cfg.eng)L.push("Reported by  : "+cfg.eng);
+  L.push("Created      : "+stamp(r.created),"Photos       : "+r.photos.length+" attached (on device)",line,"NOTE",(r.note||"—").trim(),line,"LOG");
+  r.log.forEach(l=>L.push(stamp(l.t)+"  "+l.m));
+  return L.join("\n")}
+async function copy(text,msg){try{await navigator.clipboard.writeText(text);toast(msg||"Copied")}catch(e){$("prevOut").textContent=text;open("shPrev");
+  const s=window.getSelection(),rg=document.createRange();rg.selectNodeContents($("prevOut"));s.removeAllRanges();s.addRange(rg);toast("Text selected — use Copy from the menu")}}
+$("btnPreview").onclick=()=>{$("prevOut").textContent=reportText(cur);open("shPrev")};
+
+/* ---------- send / share ---------- */
+const enc=encodeURIComponent;
+const latin=t=>String(t).replace(/→/g,"->").replace(/[—–─]/g,"-").replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[^\x20-\x7E\xA0-\xFF\n]/g,"?");
+function fname(r,ext){const id=(r.caseNo||r.serial||"report").replace(/[^A-Za-z0-9\-_]/g,"");const d=new Date(r.updated||Date.now());
+  return `CTS_${id}_${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.${ext}`}
+function subjectOf(r){return `CTS Case ${r.caseNo||"(pending)"} – ${r.hospital||"Hospital"} – S/N ${r.serial||"—"}`}
+function shortText(r,max){const t=reportText(r)+(r.photos.length?`\n\n${r.photos.length} photo(s) in the attached PDF.`:"");return t.length>max?t.slice(0,max-40)+"\n…(full report in attached PDF)":t}
+function dataUrlToBlob(d){const [h,b]=d.split(",");const bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return new Blob([u],{type:h.slice(5).split(";")[0]})}
+function imgSize(d){return new Promise(res=>{const i=new Image();i.onload=()=>res([i.naturalWidth,i.naturalHeight]);i.onerror=()=>res([4,3]);i.src=d})}
+async function buildPDF(r){if(!window.jspdf)throw new Error("pdf");const doc=new window.jspdf.jsPDF({unit:"mm",format:"a4"});
+  const W=210,M=15,CW=W-2*M;let y=M;const room=h=>{if(y+h>282){doc.addPage();y=M}};
+  doc.setFillColor(13,92,122);doc.rect(0,0,W,24,"F");doc.setTextColor(255);doc.setFont("helvetica","bold");doc.setFontSize(15);
+  doc.text("Beckman Coulter - Customer Case Report",M,11);doc.setFont("helvetica","normal");doc.setFontSize(9);doc.text("Generated "+stamp(Date.now())+" "+latin(tzName()),M,18);
+  doc.setTextColor(20,35,46);y=34;
+  const kv=[["Case No.",r.caseNo||"(not yet issued)"],["Case issued",r.caseAt?stamp(r.caseAt)+" "+tzName():"-"],["Status",statusOf(r).l],["Hospital",r.hospital||"-"],["Instance No.",r.instance||"-"],["Serial No.",r.serial||"-"],["CTS line",lineName()+" "+(cfg.num||"")],["Reported by",cfg.eng||"-"],["Created",stamp(r.created)]];
+  doc.setFontSize(10);kv.forEach(([k,v])=>{const lines=doc.splitTextToSize(latin(v),CW-38);room(lines.length*5+2);doc.setFont("helvetica","bold");doc.text(k,M,y);doc.setFont("helvetica","normal");doc.text(lines,M+38,y);y+=lines.length*5+1.5});
+  const head=t=>{y+=4;room(12);doc.setDrawColor(211,219,225);doc.line(M,y,W-M,y);y+=6;doc.setFont("helvetica","bold");doc.setFontSize(11);doc.text(t,M,y);y+=6;doc.setFont("helvetica","normal");doc.setFontSize(10)};
+  head("Note");doc.splitTextToSize(latin((r.note||"-").trim()),CW).forEach(l=>{room(5);doc.text(l,M,y);y+=5});
+  head("Log");doc.setFontSize(9);r.log.forEach(l=>{const ls=doc.splitTextToSize(latin(l.m),CW-40);room(ls.length*4.5+1);doc.setFont("courier","normal");doc.text(stamp(l.t),M,y);doc.setFont("helvetica",l.k?"bold":"normal");doc.text(ls,M+40,y);y+=ls.length*4.5+1});
+  if(r.photos.length){head("Photos ("+r.photos.length+")");for(let i=0;i<r.photos.length;i++){const p=r.photos[i];const [w,h]=await imgSize(p.d);
+    let iw=CW,ih=iw*h/w;if(ih>120){ih=120;iw=ih*w/h}room(ih+9);doc.addImage(p.d,"JPEG",M,y,iw,ih);y+=ih+4;doc.setFontSize(8);doc.text("Photo "+(i+1)+" - "+stamp(p.t),M,y);y+=6;doc.setFontSize(10)}}
+  const n=doc.getNumberOfPages();for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(91,107,119);doc.text(latin(subjectOf(r)),M,290);doc.text(i+"/"+n,W-M,290,{align:"right"})}
+  return doc.output("blob")}
+async function buildZip(r){if(!window.JSZip)throw new Error("zip");const z=new JSZip();z.file(fname(r,"txt").replace(".txt","_report.txt"),reportText(r));
+  r.photos.forEach((p,i)=>z.file(`photo_${String(i+1).padStart(2,"0")}.jpg`,dataUrlToBlob(p.d)));return z.generateAsync({type:"blob"})}
+let dl=null;
+async function saveFile(name,blob,label){
+  if(dl){try{await dl.save({filename:name,data:blob});addLog(label+" saved: "+name);toast(label+" ready — attach it in Mail or WhatsApp");return true}
+    catch(e){if(e&&e.code==="declined"){toast("Save cancelled");return false}}}
+  try{const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);addLog(label+" saved: "+name);toast(label+" saved");return true}
+  catch(e){toast("Saving is not available here. Use Share or install the app.");return false}}
+function busy(b,on,txt){if(on){b.dataset.t=b.textContent;b.textContent=txt;b.disabled=true}else{b.textContent=b.dataset.t;b.disabled=false}}
+const API_BASE="__API_BASE__".startsWith("__")?"":"__API_BASE__";
+function sig(r){return JSON.stringify([r.hospital,r.instance,r.serial,r.note,r.caseNo,r.caseAt,r.status,r.photos.length,r.photos.map(p=>p.t),r.log.length,cfg.eng,cfg.num])}
+async function ensureLink(){const r=cur;if(r.share&&r.share.sig===sig(r)&&r.share.exp>Date.now()+864e5)return r.share.url;
+  const payload={report:{hospital:r.hospital,instance:r.instance,serial:r.serial,note:r.note,caseNo:r.caseNo,caseAt:r.caseAt,status:r.status,statusLabel:statusOf(r).l,created:r.created,log:r.log},
+    photos:r.photos.map(p=>({d:p.d,t:p.t})),tz:tzName(),line:lineName()+" "+(cfg.num||""),eng:cfg.eng||""};
+  const res=await fetch(API_BASE+"/api/reports",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const j=await res.json().catch(()=>({}));if(!res.ok||!j.url)throw new Error(j.error||"Link service unavailable");
+  r.share={url:j.url,exp:j.expires,sig:sig(r)};addLog("Report link created (photos: "+r.photos.length+")",true);return j.url}
+function msgText(r,max){if(!r.share||!r.share.url)return shortText(r,max);
+  return [subjectOf(r),"Case No.: "+(r.caseNo||"(pending)")+(r.caseAt?" · issued "+stamp(r.caseAt):""),"Hospital: "+(r.hospital||"—"),"Serial No.: "+(r.serial||"—")+" · Instance: "+(r.instance||"—"),"Status: "+statusOf(r).l,"",
+    "Full report"+(r.photos.length?" and "+r.photos.length+" photo(s)":"")+":",r.share.url].join("\n")}
+async function prepLink(){const st=$("shLinkState");$("linkBox").hidden=false;$("shUrl").value="";st.textContent="Creating a link anyone can open…";
+  try{const u=await ensureLink();$("shUrl").value=u;st.textContent="Ready · expires "+stamp(cur.share.exp).slice(0,10);refreshLinks()}
+  catch(e){st.textContent="Link not created: "+(e.message||"no connection")+". Messages will send text only.";refreshLinks()}}
+$("shUrlCopy").onclick=()=>{if($("shUrl").value)copy($("shUrl").value,"Link copied")};
+function refreshLinks(){const r=cur,to=$("shTo").value.trim(),ph=$("shPh").value.replace(/[^\d+]/g,"");const sub=subjectOf(r);
+  $("lnGmail").href=`https://mail.google.com/mail/?view=cm&fs=1&to=${enc(to)}&su=${enc(sub)}&body=${enc(msgText(r,6000))}`;
+  $("lnOutlook").href=`https://outlook.office.com/mail/deeplink/compose?to=${enc(to)}&subject=${enc(sub)}&body=${enc(msgText(r,6000))}`;
+  $("lnMail").href=`mailto:${enc(to)}?subject=${enc(sub)}&body=${enc(msgText(r,1500))}`;
+  $("lnWa").href=`https://wa.me/${ph.replace(/^\+/,"")}?text=${enc(msgText(r,3500))}`;
+  $("lnSms").href=`sms:${ph}${/iPhone|iPad/.test(navigator.userAgent)?"&":"?"}body=${enc(msgText(r,1200))}`}
+$("btnShare").onclick=()=>{$("shTo").value=cfg.email||"";$("shPh").value=cfg.phone||"";refreshLinks();
+  $("shZip").hidden=!cur.photos.length;$("shAllHint").textContent=cur.photos.length?`Opens your phone's share menu with the report PDF and ${cur.photos.length} photo(s), ready for Mail, WhatsApp, Outlook or Teams.`:"Opens your phone's share menu with the report PDF, ready for Mail, WhatsApp, Outlook or Teams.";open("shShare")};
+["shTo","shPh"].forEach(id=>$(id).addEventListener("input",refreshLinks));
+[["lnGmail","Gmail"],["lnOutlook","Outlook"],["lnMail","Mail app"],["lnWa","WhatsApp"],["lnSms","Message"]].forEach(([id,n])=>$(id).addEventListener("click",()=>addLog("Report text opened in "+n)));
+$("shCopy").onclick=()=>{copy(reportText(cur),"Report copied");addLog("Report copied")};
+$("shPdf").onclick=async e=>{const b=e.currentTarget;busy(b,true,"Building PDF…");try{await saveFile(fname(cur,"pdf"),await buildPDF(cur),"PDF")}catch(err){toast("PDF could not be built here")}busy(b,false)};
+$("shZip").onclick=async e=>{const b=e.currentTarget;busy(b,true,"Packing…");try{await saveFile(fname(cur,"zip"),await buildZip(cur),"Photo pack")}catch(err){toast("Photo pack could not be built here")}busy(b,false)};
+$("shAll").onclick=async e=>{const b=e.currentTarget;busy(b,true,"Preparing…");
+  try{const pdf=new File([await buildPDF(cur)],fname(cur,"pdf"),{type:"application/pdf"});
+    const files=[pdf,...cur.photos.map((p,i)=>new File([dataUrlToBlob(p.d)],`photo_${i+1}.jpg`,{type:"image/jpeg"}))];
+    const payload={title:subjectOf(cur),text:msgText(cur,1500),files};
+    let shared=false;
+    if(navigator.canShare&&navigator.share){for(const pl of [payload,{title:payload.title,text:payload.text,files:[pdf]}]){
+      try{if(navigator.canShare(pl)){await navigator.share(pl);shared=true;addLog("Report shared ("+pl.files.length+" file(s))",true);break}}
+      catch(err){if(err&&err.name==="AbortError"){busy(b,false);return}}}}
+    if(!shared){await saveFile(pdf.name,pdf,"PDF with photos")}
+  }catch(err){toast("Could not prepare the files")}
+  busy(b,false)};
+$("prevCopy").onclick=()=>copy($("prevOut").textContent,"Report copied");
+
+/* ---------- settings & sheets ---------- */
+function open(id){$(id).hidden=false}function close(id){$(id).hidden=true}
+document.addEventListener("click",e=>{const c=e.target.closest("[data-close]");if(c)close(c.dataset.close);else if(e.target.classList.contains("sheet"))e.target.hidden=true});
+$("sRegion").innerHTML=LINES.map(l=>`<option value="${l.k}">${l.n}${l.num?" · "+l.num:""}</option>`).join("");
+$("btnSettings").onclick=()=>{$("sRegion").value=cfg.line;$("sNum").value=cfg.num;$("sEng").value=cfg.eng||"";$("sEmail").value=cfg.email||"";$("sPhone").value=cfg.phone||"";open("shSet")};
+$("sRegion").onchange=()=>{const l=LINES.find(x=>x.k===$("sRegion").value);if(l&&l.num)$("sNum").value=l.num;else $("sNum").value=""};
+$("sSave").onclick=()=>{cfg={line:$("sRegion").value,num:$("sNum").value.trim(),eng:$("sEng").value.trim(),email:$("sEmail").value.trim(),phone:$("sPhone").value.trim()};ls.set("cts-cfg",cfg);close("shSet");showHome();toast("CTS contact saved")};
+
+/* ---------- boot ---------- */
+openDB().then(showHome);
+})();
+</script>
+
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
+</body></html>

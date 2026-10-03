@@ -1,0 +1,13 @@
+name = "cts-case-report"
+main = "src/worker.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/api/*", "/r/*"]
+
+[[kv_namespaces]]
+binding = "REPORTS"
+id = "48aa4a041a9942f9adb403470fb7fc76"
