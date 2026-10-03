@@ -3,5 +3,5 @@
   "buildCommand": "",
   "framework": null,
   "headers": [{ "source": "/sw.js", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }],
-  "rewrites": [{ "source": "/r/:path*", "destination": "https://__WORKER_HOST__/r/:path*" }]
+  "rewrites": [{ "source": "/r/:path*", "destination": "https://cts-case-report.uk-dscheon.workers.dev/r/:path*" }]
 }

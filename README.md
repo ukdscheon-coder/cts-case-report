@@ -9,6 +9,7 @@ Free, no-login mobile app (installable PWA) for Beckman Coulter CTS customer cas
 - Share PDF + photos through the phone's share menu
 
 ## Free hosting
+- **Live app:** https://cts-case-report.uk-dscheon.workers.dev
 - **Cloudflare Workers** (main): app + report links (KV, 30-day expiry). `wrangler deploy`
 - **Vercel** (mirror): static app; report links are served by the Cloudflare worker.
 - Reports and photos stay on the phone until the user chooses to share a link.

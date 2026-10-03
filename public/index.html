@@ -453,7 +453,7 @@ async function saveFile(name,blob,label){
   try{const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);addLog(label+" saved: "+name);toast(label+" saved");return true}
   catch(e){toast("Saving is not available here. Use Share or install the app.");return false}}
 function busy(b,on,txt){if(on){b.dataset.t=b.textContent;b.textContent=txt;b.disabled=true}else{b.textContent=b.dataset.t;b.disabled=false}}
-const API_BASE="__API_BASE__".startsWith("__")?"":"__API_BASE__";
+const API_BASE="https://cts-case-report.uk-dscheon.workers.dev";
 function sig(r){return JSON.stringify([r.hospital,r.instance,r.serial,r.note,r.caseNo,r.caseAt,r.status,r.photos.length,r.photos.map(p=>p.t),r.log.length,cfg.eng,cfg.num])}
 async function ensureLink(){const r=cur;if(r.share&&r.share.sig===sig(r)&&r.share.exp>Date.now()+864e5)return r.share.url;
   const payload={report:{hospital:r.hospital,instance:r.instance,serial:r.serial,note:r.note,caseNo:r.caseNo,caseAt:r.caseAt,status:r.status,statusLabel:statusOf(r).l,created:r.created,log:r.log},
